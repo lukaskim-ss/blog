@@ -1,0 +1,88 @@
+---
+title: c++ tuple 따라하기 2편
+date: '2020-08-24T00:00:00.000Z'
+tags: ['cpp', 'std', 'tuple']
+---
+
+c++ standard library에서 제공하는 다양한 자료구조들은 사용하기에는 매우 쉽지만 막상 실제로 구현해보려하면 쉽지가 않다. template을 공부할겸 해서 `std::tuple`을 직접 구현해보기로 했다. 사용방법을 기반으로 기능을 하나씩 추가하면서 완성해보자. 음... 쉬운 과정은 아니다.
+
+<!-- end -->
+
+# tuple의 사용 예시
+
+`std::tuple`은 여러종류의 타입과 값을 저장할 수 있는 구조로 되어 있다. `std::get`함수를 이용해 값을 가져오고 변경도 시킬 수 있어야 한다. 간단하게 예시를 적어보면 다음과 같다.
+
+```cpp
+int main()
+{
+    tuple<int32_t, double, bool> tp(10, 3.4, true);
+
+    std::cout << "get" << std::endl;
+    std::cout << get<0>(tp) << std::endl;
+    std::cout << get<1>(tp) << std::endl;
+    std::cout << get<2>(tp) << std::endl;
+
+    std::cout << "get set" << std::endl;
+    get<0>(tp) = 22;
+    get<1>(tp) = 3.14;
+    get<2>(tp) = false;
+    std::cout << get<0>(tp) << std::endl;
+    std::cout << get<1>(tp) << std::endl;
+    std::cout << get<2>(tp) << std::endl;
+
+    return 0;
+}
+```
+
+정상적으로 컴파일 되도록 하나씩 필요한 기능을 추가해보자.
+
+# 여러 타입과 값을 가진 구조체 작성
+
+먼저 `tuple`이 여러 타입을 저장할 수 있게 하려면 `variadic template`를 이용하면 된다.
+
+```cpp
+template<typename ... Types>
+struct tuple {};
+```
+
+이제 `tuple`은 여러 타입을 가질 수 있게 됐다. 문제는 위의 형태로는 **Types**의 첫 번째 타입을 알 수 없기 때문에 값을 저장하기 위한 타입을 선언할 수 없다. 템플릿특수화를 이용해 첫 번째 타입을 알 수 있도록 해보자.
+
+```cpp
+template<typename T, typename ... Types>
+struct tuple<T, Types...>
+{
+    T _value{};
+    tuple() = default;
+};
+
+```
+
+첫 번째 타입 **T**와 그 외의 타입을 **Types**로 나누어 받도록 하여 첫 번째 값을 저장할 수 있게 됐다. 남은 일은 **Types**로 되어있는 여러 값을 저장할 수 있게 해야한다. 어떻게 해야 할까?
+
+현재까지 작성된 `tuple`의 특수화 된(specialized)형태를 보면 기본(primary) 형태에서 첫 번째 타입을 분리하기 위해 **tuple<T, Types...>**로 되어있다. 그렇다면 특수화 된 **tuple<T, Types...>**에서 **T**를 제외하고 나머지 **Types**로도 특수화 된 `tuple`에 바로 넣을 수 있을 것이다. **tuple<double, bool>**은 특수화 된 **tuple<T, Types...>**에 의해 새로운 천 번째 타입을 **tuple<T, Types...>::\_value**로 저장할 수 있게 된다.
+
+즉, **tuple<int32_t, double, bool>**의 **T**인 **int32_t**와 **tuple<double, bool>**의 **T**인 **double**을 모두 값으로 저장하기 위해서는 **tuple<int32_t, double, bool>**가 **tuple<double, bool>**을 상속 받으면 된다.
+
+```cpp
+template<typename ... Types>
+struct tuple {};
+
+template<typename T, typename ... Types>
+struct tuple<T, Types...> : tuple<Types...>
+{
+    T _value{};
+    tuple() = default;
+    tuple(const T& value, const Types& ... args) : _value(value), tuple<Types...>(args...) {}
+};
+```
+
+`tuple`이 완성됐다. 드디어 다양한 타입에 값을 저장할 수 있게 됐다. 값이 제대로 저장됐는지 확인해보기 위해서는 캐스팅을 사용하면 된다.
+
+```cpp
+tuple<int32_t, double, bool> tp(10, 3.4, true);
+std::cout << static_cast<tuple<int32_t, double, bool>&>(tp)._value << std::endl;
+std::cout << static_cast<tuple<         double, bool>&>(tp)._value << std::endl;
+std::cout << static_cast<tuple<                 bool>&>(tp)._value << std::endl;
+```
+
+정상적으로 값이 나오는 것을 확인해볼 수 있다. 다음 포스팅에서는 `tuple`의 값을 꺼내오는 `get`함수를 구현해볼건데 위의 코드에서 상속 받은 부모 `tuple`의 값을 가져오기 사용한 코드가 `get`함수 구현의 중요한 요소가 된다.

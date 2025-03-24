@@ -1,0 +1,103 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  src: url('/fonts/NanumGothic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: 'Nanum Gothic', 'sans-serif';
+  --font-mono: 'JetBrains Mono', 'monospace';
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+article h1,
+h2,
+h3 {
+  scroll-margin-top: 100px;
+}
+
+article.prose pre {
+  @apply p-0;
+  code {
+    @apply leading-[1.4] lg:leading-[1.5];
+  }
+}
+
+article.prose code:not(pre code) {
+  @apply font-normal;
+  @apply bg-slate-200 rounded-md;
+  @apply px-1.5 py-0.5;
+  @apply before:content-[''] after:content-[''];
+}
+
+article.prose a:not(.toc a) {
+  @apply font-normal no-underline text-sky-700;
+  @apply bg-slate-200 rounded-md;
+  @apply px-1.5 py-0.5;
+}
+
+article.prose a:not(.toc a)::after {
+  @apply inline-block;
+  @apply bg-[url('/link.svg')] bg-cover bg-no-repeat;
+  @apply size-[0.75em];
+  @apply ml-1;
+  @apply content-[''];
+}
+
+article.prose .toc {
+  @apply py-6 my-12;
+  @apply border-y border-gray-200;
+
+  a {
+    @apply font-normal no-underline text-sky-700;
+    @apply hover:underline;
+  }
+
+  .toc-level {
+    @apply list-disc;
+  }
+
+  .toc-level-1,
+  .toc-level-2,
+  .toc-level-3 {
+    @apply p-0 ml-8 my-0;
+  }
+
+  .toc-item {
+    @apply p-0 pt-1 m-0;
+  }
+}
