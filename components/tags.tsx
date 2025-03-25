@@ -9,7 +9,7 @@ const Tags = ({ tags }: { tags: string[] }) => {
     <ul className="list-none flex space-x-2">
       {tags.map((tag: string) => (
         <li
-          className="flex items-center text-white bg-sky-700 rounded-md px-2 py-0 text-md lg:text-lg"
+          className="flex items-center text-white bg-sky-600 rounded-md px-2 py-0 text-md lg:text-lg"
           key={tag}
         >
           <Link href={`/tags/${tag}/1`}>{tag}</Link>

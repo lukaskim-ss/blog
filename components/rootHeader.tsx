@@ -8,7 +8,7 @@ const RootHeader = () => {
       <div className="prose lg:prose-xl mx-auto">
         <Link className="no-underline" href="/">
           <h1 className="text-6xl lg:text-8xl font-extrabold mb-0 lg:mb-0">
-            lukas<span className="text-sky-700">.log</span>
+            lukas<span className="text-sky-600">.log</span>
           </h1>
         </Link>
       </div>

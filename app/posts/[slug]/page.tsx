@@ -49,8 +49,8 @@ export default async function Post({ params }: Props) {
   return (
     <main className="w-full md:max-w-4xl mx-auto px-4 md:px-16">
       <PostTitle postData={postData} />
-      {/* <article className="prose lg:prose-xl dark:prose-invert"> */}
-      <article className="prose lg:prose-xl mx-auto">
+      <article className="prose lg:prose-xl mx-auto dark:prose-invert">
+      {/* <article className="prose lg:prose-xl mx-auto"> */}
         {/* 수식 처리를 위해서 rehypeSanitize다음에 rehypeKatex가 와야 한다 */}
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkMath]}

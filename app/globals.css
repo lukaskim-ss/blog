@@ -27,12 +27,7 @@
   --font-mono: 'JetBrains Mono', 'monospace';
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
+@custom-variant dark (&:where(.dark, .dark *));
 
 html {
   scroll-behavior: auto;
@@ -42,6 +37,10 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+}
+
+body.dark {
+  @apply bg-[#1a1a1a] text-[#ededed];
 }
 
 article h1,
@@ -65,7 +64,7 @@ article.prose code:not(pre code) {
 }
 
 article.prose a:not(.toc a) {
-  @apply font-normal no-underline text-sky-700;
+  @apply font-normal no-underline text-sky-600;
   @apply bg-slate-200 rounded-md;
   @apply px-1.5 py-0.5;
 }
@@ -83,7 +82,7 @@ article.prose .toc {
   @apply border-y border-gray-200;
 
   a {
-    @apply font-normal no-underline text-sky-700;
+    @apply font-normal no-underline text-sky-600;
     @apply hover:underline;
   }
 
