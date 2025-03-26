@@ -23,6 +23,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-border: oklch(0.446 0.03 256.802);
   --font-sans: 'Nanum Gothic', 'sans-serif';
   --font-mono: 'JetBrains Mono', 'monospace';
 }
@@ -40,7 +41,7 @@ body {
 }
 
 body.dark {
-  @apply bg-[#1a1a1a] text-[#ededed];
+  @apply bg-[var(--color-foreground)] text-[var(--color-background)];
 }
 
 article h1,
@@ -58,28 +59,24 @@ article.prose pre {
 
 article.prose code:not(pre code) {
   @apply font-normal;
-  @apply bg-slate-200 rounded-md;
+  @apply bg-slate-200 dark:bg-slate-700 rounded-md;
   @apply px-1.5 py-0.5;
   @apply before:content-[''] after:content-[''];
 }
 
 article.prose a:not(.toc a) {
-  @apply font-normal no-underline text-sky-600;
-  @apply bg-slate-200 rounded-md;
+  @apply font-normal no-underline hover:underline text-sky-600;
+  @apply bg-slate-200 dark:bg-slate-700 rounded-md;
   @apply px-1.5 py-0.5;
 }
 
 article.prose a:not(.toc a)::after {
-  @apply inline-block;
-  @apply bg-[url('/link.svg')] bg-cover bg-no-repeat;
-  @apply size-[0.75em];
-  @apply ml-1;
   @apply content-[''];
 }
 
 article.prose .toc {
   @apply py-6 my-12;
-  @apply border-y border-gray-200;
+  @apply border-y border-gray-200 dark:border-[var(--color-border)];
 
   a {
     @apply font-normal no-underline text-sky-600;
