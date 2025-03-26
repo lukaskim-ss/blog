@@ -10,6 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@deemlol/next-icons": "^0.1.9",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
     "next": "15.2.3",

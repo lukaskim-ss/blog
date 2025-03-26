@@ -1,0 +1,52 @@
+/* https://tailwindcss.com/docs/compatibility#explicit-context-sharing */
+/* tailwindcss와 scss를 같이 사용할 경우 반드시 전역 .css를 reference 해야 한다다 */
+@reference "../app/globals.css";
+
+.checkbox {
+  /* opacity: 0; */
+  display: none;
+}
+
+.checkbox_label {
+  background-color: var(--color-foreground);
+  width: 50px;
+  height: 26px;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.theme_icon {
+  @apply p-0.75 text-white;
+  transition: color 0.2s ease;
+}
+
+.checkbox_label .ball {
+  background-color: var(--color-background);
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.checkbox:checked + .checkbox_label .ball {
+  transform: translateX(24px);
+  background-color: var(--color-foreground);
+}
+
+.checkbox:checked + .checkbox_label .theme_icon {
+  color: var(--color-foreground);
+}
+
+.checkbox:checked + .checkbox_label {
+  background: var(--color-background);
+}

@@ -1,5 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import styles from './themeToggleButton.module.css';
+import { Sun, Moon } from '@deemlol/next-icons';
 
 const ThemeToggleButton: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
@@ -35,20 +37,20 @@ const ThemeToggleButton: React.FC = () => {
   }
 
   return (
-    <button
-      onClick={toggleTheme}
-      style={{
-        padding: '10px 20px',
-        borderRadius: '5px',
-        border: 'none',
-        cursor: 'pointer',
-        backgroundColor: isDarkMode ? '#333' : '#fff',
-        color: isDarkMode ? '#fff' : '#333',
-        transition: 'all 0.3s ease',
-      }}
-    >
-      {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-    </button>
+    <div>
+      <input
+        className={styles.checkbox}
+        onChange={toggleTheme}
+        checked={isDarkMode}
+        id="checkbox"
+        type="checkbox"
+      />
+      <label htmlFor="checkbox" className={styles.checkbox_label}>
+        <Moon className={styles.theme_icon} />
+        <Sun className={styles.theme_icon} />
+        <span className={styles.ball}></span>
+      </label>
+    </div>
   );
 };
 
