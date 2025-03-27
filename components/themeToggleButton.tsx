@@ -46,9 +46,12 @@ const ThemeToggleButton: React.FC = () => {
         type="checkbox"
       />
       <label htmlFor="checkbox" className={styles.checkbox_label}>
-        <Moon className={styles.theme_icon} />
-        <Sun className={styles.theme_icon} />
-        <span className={styles.ball}></span>
+        {/* <Moon className={styles.theme_icon} />
+        <Sun className={styles.theme_icon} /> */}
+        <span className={styles.ball}>
+          <Sun className={styles.theme_icon_sun} />
+          <Moon className={styles.theme_icon_moon} />
+        </span>
       </label>
     </div>
   );
