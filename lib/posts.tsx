@@ -12,9 +12,9 @@ export type PostData = {
 
 export function getPostDatas(): PostData[] {
   const postsDirectory = path.join(process.cwd(), 'posts');
-  const filenames = fs.readdirSync(postsDirectory);
+  const fileNames = fs.readdirSync(postsDirectory);
 
-  const postDatas = filenames.map((filename) => {
+  const postDatas = fileNames.map((filename) => {
     const filePath = path.join(postsDirectory, filename);
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { data, content } = matter(fileContents);

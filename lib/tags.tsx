@@ -41,3 +41,21 @@ export const getTagDatas = (): TagData[] => {
 
   return tagDatas;
 };
+
+export const getTotalCount = (): number =>
+  getTagDatas().reduce(
+    (sum: number, tagData: TagData) => sum + tagData.count,
+    0
+  );
+
+export const getShuffledTagDatas = (): TagData[] => {
+  const tagDatas = getTagDatas();
+
+  // Fisher-Yates Algorithm
+  for (let i = tagDatas.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [tagDatas[i], tagDatas[j]] = [tagDatas[j], tagDatas[i]];
+  }
+
+  return tagDatas;
+};
