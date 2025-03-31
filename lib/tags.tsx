@@ -1,13 +1,18 @@
 import path from 'path';
 import fs from 'fs';
 import matter from 'gray-matter';
+import { convertToEncoded as convertToEncoded } from './common';
 
 export type TagData = {
   tag: string;
   count: number;
 };
 
-export const getTagDatas = (): TagData[] => {
+export function convertToEncodedTags(tags: string[]): string[] {
+  return tags.map((tag) => convertToEncoded(tag));
+}
+
+export function getTagDatas(): TagData[] {
   const postsDirectory = path.join(process.cwd(), 'posts');
   const fileNames = fs.readdirSync(postsDirectory);
 
@@ -21,17 +26,15 @@ export const getTagDatas = (): TagData[] => {
       return;
     }
 
-    data.tags.forEach((tag: string) => {
+    const encodedTags = convertToEncodedTags(data.tags);
+
+    encodedTags.forEach((tag: string) => {
       if (tagRecord[tag] === undefined) {
         tagRecord[tag] = 1;
-        console.log(`${tag} ${tagRecord[tag]}`);
       } else {
         tagRecord[tag] = tagRecord[tag] + 1;
-        console.log(`${tag} ${tagRecord[tag]}`);
       }
     });
-
-    console.log(tagRecord);
   });
 
   const tagDatas: TagData[] = Object.entries(tagRecord).map(([tag, count]) => ({
@@ -39,23 +42,7 @@ export const getTagDatas = (): TagData[] => {
     count,
   }));
 
-  return tagDatas;
-};
-
-export const getTotalCount = (): number =>
-  getTagDatas().reduce(
-    (sum: number, tagData: TagData) => sum + tagData.count,
-    0
+  return tagDatas.sort((a, b) =>
+    a.count < b.count ? 1 : a.count > b.count ? -1 : 0
   );
-
-export const getShuffledTagDatas = (): TagData[] => {
-  const tagDatas = getTagDatas();
-
-  // Fisher-Yates Algorithm
-  for (let i = tagDatas.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [tagDatas[i], tagDatas[j]] = [tagDatas[j], tagDatas[i]];
-  }
-
-  return tagDatas;
-};
+}

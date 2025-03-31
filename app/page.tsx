@@ -1,7 +1,5 @@
 import PostTitle from '@/components/postTitle';
 import { getPostDatas, PostData } from '@/lib/posts';
-import Image from 'next/image';
-import Link from 'next/link';
 
 export default function Home() {
   return (

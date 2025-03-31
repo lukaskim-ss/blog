@@ -12,7 +12,7 @@ const Tags = ({ tags }: { tags: string[] }) => {
           className="flex items-center text-white bg-sky-600 rounded-md px-2 py-0 text-md lg:text-lg"
           key={tag}
         >
-          <Link href={`/tags/${tag}/1`}>{tag}</Link>
+          <Link href={`/tags/${tag}`}>{tag}</Link>
         </li>
       ))}
     </ul>
